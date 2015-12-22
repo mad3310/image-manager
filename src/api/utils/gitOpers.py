@@ -28,8 +28,7 @@ class GitOpers(UtilOpers):
 
     def clone(self, tp=""):
         url = self.get_url_by_type(tp)
-        # fot test
-        url = "http://mazheng:admin!12@git.letv.cn/mazheng/letv_zookeeper_image.git"
+        #url = "http://mazheng:admin!12@git.letv.cn/mazheng/letv_zookeeper_image.git"
         cmd = "cd %s && git clone %s" % (options.image_dir, url)
         run_cmd(cmd)
 

@@ -5,19 +5,19 @@ from utils.dockerOpers import DockerOpers
 from result import Result
 
 
-image_types = ["zookeeper", "mcluster"]
+image__types = ["zookeeper", "mcluster"]
 
 
-def is_image_type_valid(type):
-    return type in image_types
+def is_image__type_valid(_type):
+    return _type in image__types
 
 
-def check_type(func):
-    def decorate(self, type, *args):
-        if is_image_type_valid(type):
-            res = func(self, type, *args)
+def check__type(func):
+    def decorate(self, _type, *args):
+        if is_image__type_valid(_type):
+            res = func(self, _type, *args)
         else:
-            res = Result(value="invalid type")
+            res = Result(value="invalid _type")
         return res
     return decorate
 
@@ -29,27 +29,27 @@ class ImageLogic(object):
     git_op = GitOpers.instance()
     docker_op = DockerOpers.instance()
 
-    def get_tag_by_type(self, type):
-        return self.image_tag % (type, self.git_op.commit_id(type))
+    def get_tag_by__type(self, _type):
+        return self.image_tag % (_type, self.git_op.commit_id(_type))
 
-    def pull(self, type):
-        tag = self.get_tag_by_type(type)
+    def pull(self, _type):
+        tag = self.get_tag_by__type(_type)
         res = self.docker_op.pull2(tag=tag)
         result = Result(not res[1], res[0])
         return str(result)
 
-    def push(self, type):
-        tag = self.get_tag_by_type(type)
+    def push(self, _type):
+        tag = self.get_tag_by__type(_type)
         res = self.docker_op.push2(tag=tag)
         result = Result(not res[1], res[0])
         return str(result)
 
-    def build(self, type):
-        if not self.git_op.exists(type):
-            self.git_op.clone(type)
+    def build(self, _type):
+        if not self.git_op.exists(_type):
+            self.git_op.clone(_type)
         else:
-            self.git_op.update(type)
-        tag = self.get_tag_by_type(type)
-        res = self.docker_op.build2(type=type, tag=tag)
+            self.git_op.update(_type)
+        tag = self.get_tag_by__type(_type)
+        res = self.docker_op.build2(_type=_type, tag=tag)
         result = Result(not res[1], res[0])
         return str(result)
