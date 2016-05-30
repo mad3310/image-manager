@@ -1,5 +1,7 @@
 __author__ = 'xsank'
 
+import logging
+
 from tornado.options import options
 from docker import Client
 
@@ -16,19 +18,19 @@ class DockerOpers(UtilOpers):
         self.client = Client(base_url='unix://var/run/docker.sock')
 
     @staticmethod
-    def get_path_by_type(tp):
-        return options.image_dir + "/%s" % tp
+    def get_path_by__type(tp):
+        return options.dockerfile_dir + "/%s" % tp
 
-    def build(self, type='', tag='', noCache=False):
-        file = open(self.get_path_by_type(type) + "/%s" % self.dockerfile)
-        streams = self.client.build(tag=tag, fileobj=file, nocache=noCache)
+    def build(self, _type='', tag='', noCache=False):
+        _file = open(self.get_path_by__type(_type) + "/%s" % self.dockerfile)
+        streams = self.client.build(tag=tag, fileobj=_file, nocache=noCache)
         res = [line for line in streams]
         return res
 
-    def build2(self, type='', tag=''):
-        path = self.get_path_by_type(type)
-        total = self.registry + '/' + tag
-        cmd = 'cd %s && docker build -t="%s" .' % (path, total)
+    def build2(self, image, _path):
+         
+        cmd = 'cd %s && docker build -t="%s" .' % (_path, image)
+        logging.debug('build images cmd :%s' % cmd)
         res = run_cmd(cmd)
         return res
 
@@ -36,9 +38,9 @@ class DockerOpers(UtilOpers):
         res = self.client.push(repository, tag)
         return res
 
-    def push2(self, tag=''):
-        total = self.registry + '/' + tag
-        cmd = "docker push %s" % total
+    def push2(self, image):
+        cmd = "docker push %s" % image
+        logging.info('push images cmd :%s' % cmd)
         res = run_cmd(cmd)
         return res
 

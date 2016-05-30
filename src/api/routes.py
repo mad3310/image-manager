@@ -1,6 +1,7 @@
 __author__ = 'xsank'
 
 from handlers.imageHandler import *
+from handlers.dockerfileHander import DockerfileBuildHandler
 
 
 handlers = [

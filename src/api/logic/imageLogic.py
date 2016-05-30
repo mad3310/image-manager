@@ -5,7 +5,7 @@ from utils.dockerOpers import DockerOpers
 from result import Result
 
 
-image__types = ["zookeeper", "mcluster"]
+image__types = ["zookeeper", "mcluster", "jetty"]
 
 
 def is_image__type_valid(_type):
@@ -38,18 +38,12 @@ class ImageLogic(object):
         result = Result(not res[1], res[0])
         return str(result)
 
-    def push(self, _type):
-        tag = self.get_tag_by__type(_type)
-        res = self.docker_op.push2(tag=tag)
+    def push(self, image):
+        res = self.docker_op.push2(image)
         result = Result(not res[1], res[0])
         return str(result)
 
-    def build(self, _type):
-        if not self.git_op.exists(_type):
-            self.git_op.clone(_type)
-        else:
-            self.git_op.update(_type)
-        tag = self.get_tag_by__type(_type)
-        res = self.docker_op.build2(_type=_type, tag=tag)
+    def build(self, image, _path):
+        res = self.docker_op.build2(image, _path)
         result = Result(not res[1], res[0])
         return str(result)

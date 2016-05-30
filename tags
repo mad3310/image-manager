@@ -1,0 +1,141 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Application	src/api/main.py	/^class Application(tornado.web.Application):$/;"	c
+BaseHandler	src/api/handlers/baseHandler.py	/^class BaseHandler(RequestHandler):$/;"	c
+BaseHandler	src/api/handlers/imageHandler.py	/^from handlers.baseHandler import BaseHandler$/;"	i
+Client	src/api/utils/dockerOpers.py	/^from docker import Client$/;"	i
+ConfigOpers	src/api/utils/configOpers.py	/^class ConfigOpers(UtilOpers):$/;"	c
+ConfigOpers	src/api/utils/gitOpers.py	/^from configOpers import ConfigOpers$/;"	i
+DockerOpers	src/api/logic/imageLogic.py	/^from utils.dockerOpers import DockerOpers$/;"	i
+DockerOpers	src/api/utils/dockerOpers.py	/^class DockerOpers(UtilOpers):$/;"	c
+ERROR_CODE	src/api/utils/decorators.py	/^ERROR_CODE = 500$/;"	v
+GitOpers	src/api/logic/imageLogic.py	/^from utils.gitOpers import GitOpers$/;"	i
+GitOpers	src/api/utils/gitOpers.py	/^class GitOpers(UtilOpers):$/;"	c
+IOLoop	src/api/utils/decorators.py	/^from tornado.ioloop import IOLoop$/;"	i
+ImageBuildHandler	src/api/handlers/imageHandler.py	/^class ImageBuildHandler(ImageHandler):$/;"	c
+ImageHandler	src/api/handlers/imageHandler.py	/^class ImageHandler(BaseHandler):$/;"	c
+ImageLogic	src/api/handlers/imageHandler.py	/^from logic.imageLogic import ImageLogic$/;"	i
+ImageLogic	src/api/logic/imageLogic.py	/^class ImageLogic(object):$/;"	c
+ImagePullHandler	src/api/handlers/imageHandler.py	/^class ImagePullHandler(ImageHandler):$/;"	c
+ImagePushHandler	src/api/handlers/imageHandler.py	/^class ImagePushHandler(ImageHandler):$/;"	c
+RequestHandler	src/api/handlers/baseHandler.py	/^from tornado.web import RequestHandler$/;"	i
+Result	src/api/logic/imageLogic.py	/^from result import Result$/;"	i
+Result	src/api/logic/result.py	/^class Result(object):$/;"	c
+Task	src/api/utils/decorators.py	/^from tornado.gen import Task$/;"	i
+ThreadPoolExecutor	src/api/utils/decorators.py	/^from concurrent.futures import ThreadPoolExecutor$/;"	i
+UtilOpers	src/api/utils/configOpers.py	/^from utilOpers import UtilOpers$/;"	i
+UtilOpers	src/api/utils/dockerOpers.py	/^from utilOpers import UtilOpers$/;"	i
+UtilOpers	src/api/utils/gitOpers.py	/^from utilOpers import UtilOpers$/;"	i
+UtilOpers	src/api/utils/utilOpers.py	/^class UtilOpers(object):$/;"	c
+__author__	src/api/__init__.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/appdefine/__init__.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/appdefine/imageDefine.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/handlers/__init__.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/handlers/baseHandler.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/handlers/imageHandler.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/logic/__init__.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/logic/imageLogic.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/logic/result.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/main.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/routes.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/utils/__init__.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/utils/configOpers.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/utils/dockerOpers.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/utils/gitOpers.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/utils/utilOpers.py	/^__author__ = 'xsank'$/;"	v
+__author__	src/api/utils/utils.py	/^__author__ = 'xsank'$/;"	v
+__init__	src/api/logic/result.py	/^    def __init__(self, success=False, value=''):$/;"	m	class:Result
+__init__	src/api/main.py	/^    def __init__(self):$/;"	m	class:Application
+__init__	src/api/utils/dockerOpers.py	/^    def __init__(self):$/;"	m	class:DockerOpers
+__init__	src/api/utils/gitOpers.py	/^    def __init__(self):$/;"	m	class:GitOpers
+__repr__	src/api/logic/result.py	/^    def __repr__(self):$/;"	m	class:Result	file:
+_mount_dir	src/api/utils/__init__.py	/^_mount_dir = {$/;"	v
+absolute_import	src/api/utils/decorators.py	/^from __future__ import absolute_import, division, print_function, with_statement$/;"	i
+asynchronous	src/api/handlers/imageHandler.py	/^from tornado.web import asynchronous$/;"	i
+base_dir	src/api/appdefine/imageDefine.py	/^base_dir = os.path.abspath(dirname(dirname(__file__)))$/;"	v
+block	src/api/handlers/baseHandler.py	/^    def block(self, *args):$/;"	m	class:BaseHandler
+block	src/api/handlers/imageHandler.py	/^    def block(self, _type):$/;"	m	class:ImageBuildHandler
+block	src/api/handlers/imageHandler.py	/^    def block(self, _type):$/;"	m	class:ImagePullHandler
+block	src/api/handlers/imageHandler.py	/^    def block(self, _type):$/;"	m	class:ImagePushHandler
+build	src/api/logic/imageLogic.py	/^    def build(self, _type):$/;"	m	class:ImageLogic
+build	src/api/utils/dockerOpers.py	/^    def build(self, type='', tag='', noCache=False):$/;"	m	class:DockerOpers
+build2	src/api/utils/dockerOpers.py	/^    def build2(self, type='', tag=''):$/;"	m	class:DockerOpers
+check__type	src/api/logic/imageLogic.py	/^def check__type(func):$/;"	f
+check_image	src/api/handlers/imageHandler.py	/^    def check_image(_type):$/;"	m	class:ImageHandler
+clone	src/api/utils/gitOpers.py	/^    def clone(self, tp=""):$/;"	m	class:GitOpers
+commit_id	src/api/utils/gitOpers.py	/^    def commit_id(self, tp):$/;"	m	class:GitOpers
+decorate	src/api/logic/imageLogic.py	/^    def decorate(self, _type, *args):$/;"	f	function:check__type
+default_executor	src/api/utils/decorators.py	/^default_executor = ThreadPoolExecutor(10)$/;"	v
+define	src/api/appdefine/imageDefine.py	/^from tornado.options import define$/;"	i
+dirname	src/api/appdefine/imageDefine.py	/^dirname = os.path.dirname$/;"	v
+division	src/api/utils/decorators.py	/^from __future__ import absolute_import, division, print_function, with_statement$/;"	i
+docker_op	src/api/logic/imageLogic.py	/^    docker_op = DockerOpers.instance()$/;"	v	class:ImageLogic
+dockerfile	src/api/utils/dockerOpers.py	/^    dockerfile = "Dockerfile"$/;"	v	class:DockerOpers
+engine	src/api/handlers/imageHandler.py	/^from tornado.gen import engine$/;"	i
+exists	src/api/utils/gitOpers.py	/^    def exists(self, tp):$/;"	m	class:GitOpers
+functools	src/api/utils/decorators.py	/^import functools$/;"	i
+get_params	src/api/handlers/baseHandler.py	/^    def get_params(self):$/;"	m	class:BaseHandler
+get_path_by_type	src/api/utils/dockerOpers.py	/^    def get_path_by_type(tp):$/;"	m	class:DockerOpers
+get_path_by_type	src/api/utils/gitOpers.py	/^    def get_path_by_type(tp):$/;"	m	class:GitOpers
+get_tag_by__type	src/api/logic/imageLogic.py	/^    def get_tag_by__type(self, _type):$/;"	m	class:ImageLogic
+get_url_by_type	src/api/utils/gitOpers.py	/^    def get_url_by_type(self, tp):$/;"	m	class:GitOpers
+get_value	src/api/utils/configOpers.py	/^    def get_value(filename, key, separator="="):$/;"	m	class:ConfigOpers
+git_op	src/api/logic/imageLogic.py	/^    git_op = GitOpers.instance()$/;"	v	class:ImageLogic
+handlers	src/api/main.py	/^from routes import handlers$/;"	i
+handlers	src/api/routes.py	/^handlers = [$/;"	v
+httpserver	src/api/main.py	/^import tornado.httpserver$/;"	i
+imageDefine	src/api/main.py	/^from appdefine import imageDefine$/;"	i
+image__types	src/api/logic/imageLogic.py	/^image__types = ["zookeeper", "mcluster"]$/;"	v
+image_logic	src/api/handlers/imageHandler.py	/^    image_logic = ImageLogic()$/;"	v	class:ImageHandler
+image_tag	src/api/logic/imageLogic.py	/^    image_tag = "image_manager\/letv_%s_image:%s"$/;"	v	class:ImageLogic
+instance	src/api/utils/utilOpers.py	/^    def instance(cls):$/;"	m	class:UtilOpers
+ioloop	src/api/main.py	/^import tornado.ioloop$/;"	i
+is_dir_exists	src/api/utils/gitOpers.py	/^from utils import run_cmd, is_dir_exists$/;"	i
+is_dir_exists	src/api/utils/utils.py	/^def is_dir_exists(path):$/;"	f
+is_image__type_valid	src/api/handlers/imageHandler.py	/^from logic.imageLogic import is_image__type_valid$/;"	i
+is_image__type_valid	src/api/logic/imageLogic.py	/^def is_image__type_valid(_type):$/;"	f
+join	src/api/appdefine/imageDefine.py	/^join = os.path.join$/;"	v
+json	src/api/utils/utils.py	/^import json$/;"	i
+main	src/api/main.py	/^def main():$/;"	f
+object_to_json	src/api/utils/utils.py	/^def object_to_json(obj):$/;"	f
+options	src/api/main.py	/^from tornado.options import options$/;"	i
+options	src/api/main.py	/^import tornado.options$/;"	i
+options	src/api/utils/dockerOpers.py	/^from tornado.options import options$/;"	i
+options	src/api/utils/gitOpers.py	/^from tornado.options import options$/;"	i
+os	src/api/appdefine/imageDefine.py	/^import os$/;"	i
+os	src/api/utils/utils.py	/^import os$/;"	i
+post	src/api/handlers/imageHandler.py	/^    def post(self, *args, **kwargs):$/;"	m	class:ImageBuildHandler
+post	src/api/handlers/imageHandler.py	/^    def post(self, *args, **kwargs):$/;"	m	class:ImagePullHandler
+post	src/api/handlers/imageHandler.py	/^    def post(self, *args, **kwargs):$/;"	m	class:ImagePushHandler
+print_function	src/api/utils/decorators.py	/^from __future__ import absolute_import, division, print_function, with_statement$/;"	i
+pull	src/api/logic/imageLogic.py	/^    def pull(self, _type):$/;"	m	class:ImageLogic
+pull	src/api/utils/dockerOpers.py	/^    def pull(self, repository="10.160.140.32:5000", tag=''):$/;"	m	class:DockerOpers
+pull2	src/api/utils/dockerOpers.py	/^    def pull2(self, tag=''):$/;"	m	class:DockerOpers
+push	src/api/logic/imageLogic.py	/^    def push(self, _type):$/;"	m	class:ImageLogic
+push	src/api/utils/dockerOpers.py	/^    def push(self, repository="10.160.140.32:5000", tag=''):$/;"	m	class:DockerOpers
+push2	src/api/utils/dockerOpers.py	/^    def push2(self, tag=''):$/;"	m	class:DockerOpers
+registry	src/api/utils/dockerOpers.py	/^    registry = "10.160.140.32:5000"$/;"	v	class:DockerOpers
+run_callback	src/api/handlers/imageHandler.py	/^from async.core import run_on_executor, run_callback$/;"	i
+run_callback	src/api/utils/decorators.py	/^def run_callback(func):$/;"	f
+run_cmd	src/api/utils/dockerOpers.py	/^from utils import run_cmd$/;"	i
+run_cmd	src/api/utils/gitOpers.py	/^from utils import run_cmd, is_dir_exists$/;"	i
+run_cmd	src/api/utils/utils.py	/^def run_cmd(cmdStr):$/;"	f
+run_on_executor	src/api/handlers/imageHandler.py	/^from async.core import run_on_executor, run_callback$/;"	i
+run_on_executor	src/api/utils/decorators.py	/^def run_on_executor(executor=default_executor):$/;"	f
+run_on_executor_decorator	src/api/utils/decorators.py	/^    def run_on_executor_decorator(func):$/;"	f	function:run_on_executor
+stack_context	src/api/utils/decorators.py	/^from tornado import stack_context$/;"	i
+subprocess	src/api/utils/utils.py	/^import subprocess$/;"	i
+sys	src/api/utils/decorators.py	/^import sys$/;"	i
+tornado	src/api/main.py	/^import tornado.httpserver$/;"	i
+tornado	src/api/main.py	/^import tornado.ioloop$/;"	i
+tornado	src/api/main.py	/^import tornado.options$/;"	i
+tornado	src/api/main.py	/^import tornado.web$/;"	i
+update	src/api/utils/gitOpers.py	/^    def update(self, tp):$/;"	m	class:GitOpers
+web	src/api/main.py	/^import tornado.web$/;"	i
+with_statement	src/api/utils/decorators.py	/^from __future__ import absolute_import, division, print_function, with_statement$/;"	i
+wrapper	src/api/utils/decorators.py	/^        def wrapper(*args, **kwargs):$/;"	f	function:run_on_executor.run_on_executor_decorator
+wrapper	src/api/utils/decorators.py	/^    def wrapper(self, *args, **kwargs):$/;"	f	function:run_callback

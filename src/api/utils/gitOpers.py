@@ -20,7 +20,7 @@ class GitOpers(UtilOpers):
 
     @staticmethod
     def get_path_by_type(tp):
-        return options.image_dir + "/%s" % tp
+        return options.dockerfile_dir + "/%s" % tp
 
     def exists(self, tp):
         path = self.get_path_by_type(tp)
@@ -29,7 +29,7 @@ class GitOpers(UtilOpers):
     def clone(self, tp=""):
         url = self.get_url_by_type(tp)
         #url = "http://mazheng:admin!12@git.letv.cn/mazheng/letv_zookeeper_image.git"
-        cmd = "cd %s && git clone %s" % (options.image_dir, url)
+        cmd = "cd %s && git clone %s" % (options.dockerfile_dir, url)
         run_cmd(cmd)
 
     def update(self, tp):
