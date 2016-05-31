@@ -5,7 +5,7 @@ from handlers.dockerfileHander import DockerfileBuildHandler
 
 
 handlers = [
-    (r"/dockerfile/build", DockerfileBuildHandler),      
+    (r"/dockerfile/build", DockerfileBuildHandler),
     (r"/image/build", ImageBuildHandler),
     (r"/image/push", ImagePushHandler),
     (r"/image/pull", ImagePullHandler),
