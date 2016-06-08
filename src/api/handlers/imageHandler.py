@@ -17,7 +17,7 @@ class ImageHandler(BaseHandler):
 
 class ImageBuildHandler(ImageHandler): 
 
-    @asynchronous
+    @asynchronous 
     @engine
     def post(self):
         """
@@ -29,51 +29,58 @@ class ImageBuildHandler(ImageHandler):
         app_type = self.validate_parms('app_type', args)
         app_name = self.validate_parms('app_name', args) 
         
-        yield self._image_build(owner, app_type, app_name)
-        if self.image:
-            yield self._image_push(self.image) 
+        self._image_build(owner, app_type, app_name)
+        if self.tag:
+            self._image_push()
         self.finish()
+
 
     @engine
     def _image_build(self, owner, app_type, 
-                     app_name)
-        tag = '%s/%s:%s' % (owner, app_type, app_name)
-        image = self.registry + '/' + tag
+                     app_name, app_version='0.0.1'):
+        tag = '/%s/%s:%s-%s' % (owner, app_type, 
+                               app_name, app_version)
         dockerfile_path = dockerfile_get(owner, app_type, 
-                                         app_name)
-        logging.info('build image  : %s' % image)
-        self.image = None
+                                   app_name, app_version)
+        logging.info('build image:%s, tag:%s' 
+                   % (self.registry, tag))
+        self.tag = None
         try:
-            yield self.__image_build(image, dockerfile_path)
-            self.image = image
+            yield self.__image_build(tag, dockerfile_path)
+            self.tag = tag
         except Exception as e:
             logging.error(e, exc_info=True)
             self.set_status(500)
-            self.write({'detail':('image %s build fail'
-                        % image)})
+            self.write({'detail':('image %s%s build fail'
+                        % (image, tag))})
 
     @engine
-    def _image_push(self, image):
-        logging.info('image to be pushed : %s'
-                     % image)
+    def _image_push(self):
+        logging.info('image to be pushed : %s%s'
+                     % (self.image, self.tag))
         try:
-            yield self.__image_push(self.image)
-            self.write({'image': self.image})
+            yield self.__image_push()
+            self.write({'image': self.image, 
+                        'tag': self.tag})
         except Exception as e:
             logging.error(e, exc_info=True)
             self.set_status(500)
-            self.write({'detail':('image %s push fail' 
-                                  % self.image)})
+            self.write({'detail':('image %s%s push fail' 
+                                  % (self.image, self.tag))})
 
     @run_on_executor()
     @run_callback
-    def __image_build(self, image, dockerfile_path):
-        res = self.image_logic.build(image, dockerfile_path)
+    def __image_build(self, tag, dockerfile_path):
+        logging.info('build image  : %s%s, dockerfile:%s' 
+                     % (self.registry, tag, dockerfile_path))
+        res = self.image_logic.build(dockerfile_path,
+                                    tag)
         return res
 
     @run_on_executor()
     @run_callback
-    def __image_push(self, image):
-        res = self.image_logic.push(image)
+    def __image_push(self):
+        res = self.image_logic.push(self.registry, 
+                                    self.tag)
         return res
 

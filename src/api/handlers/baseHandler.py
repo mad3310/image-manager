@@ -5,7 +5,7 @@ from tornado.web import RequestHandler
 
 class BaseHandler(RequestHandler):
 
-    registry = "10.160.140.32:5000"
+    registry = "192.168.211.131:5000"
 
     def get_params(self):
         params = {}

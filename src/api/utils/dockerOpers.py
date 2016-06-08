@@ -11,9 +11,6 @@ from utils import run_cmd
 
 class DockerOpers(UtilOpers):
 
-    dockerfile = "Dockerfile"
-    registry = "10.160.140.32:5000"
-
     def __init__(self):
         self.client = Client(base_url='unix://var/run/docker.sock')
 
@@ -21,12 +18,12 @@ class DockerOpers(UtilOpers):
     def get_path_by__type(tp):
         return options.dockerfile_dir + "/%s" % tp
 
-    def build(self, _type='', tag='', noCache=False):
-        _file = open(self.get_path_by__type(_type) + "/%s" % self.dockerfile)
+    def build(self, dockerfile, tag='', noCache=False):
+        _file = open(dockerfile)
         streams = self.client.build(tag=tag, fileobj=_file, nocache=noCache)
         res = [line for line in streams]
         return res
 
-    def push(self, repository="10.160.140.32:5000", tag=''):
+    def push(self, repository, tag=''):
         res = self.client.push(repository, tag)
         return res
