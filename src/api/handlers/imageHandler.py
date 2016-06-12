@@ -29,7 +29,7 @@ class ImageBuildHandler(ImageHandler):
         app_type = self.validate_parms('app_type', args)
         app_name = self.validate_parms('app_name', args) 
         
-        self._image_build(owner, app_type, app_name, '0.0.2')
+        self._image_build(owner, app_type, app_name)
         self.finish({'msg':'building image, please wait....'})
 
     @engine
