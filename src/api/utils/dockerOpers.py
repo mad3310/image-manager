@@ -24,6 +24,10 @@ class DockerOpers(UtilOpers):
         res = [line for line in streams]
         return res
 
-    def push(self, repository, tag=''):
-        res = self.client.push(repository, tag)
+    def push(self, image):
+        cmd = 'docker push %s' % image
+        logging.info('pushing image: %s' % cmd)
+        res = run_cmd(cmd)
+        #now the current api cannot push tag
+        #res = self.client.push(image)
         return res

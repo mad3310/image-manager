@@ -29,58 +29,41 @@ class ImageBuildHandler(ImageHandler):
         app_type = self.validate_parms('app_type', args)
         app_name = self.validate_parms('app_name', args) 
         
-        self._image_build(owner, app_type, app_name)
-        if self.tag:
-            self._image_push()
-        self.finish()
-
+        self._image_build(owner, app_type, app_name, '0.0.2')
+        self.finish({'msg':'building image, please wait....'})
 
     @engine
     def _image_build(self, owner, app_type, 
                      app_name, app_version='0.0.1'):
-        tag = '/%s/%s:%s-%s' % (owner, app_type, 
+        tag = '%s/%s/%s_%s:%s' % (self.registry, owner, app_type, 
                                app_name, app_version)
         dockerfile_path = dockerfile_get(owner, app_type, 
                                    app_name, app_version)
-        logging.info('build image:%s, tag:%s' 
-                   % (self.registry, tag))
-        self.tag = None
+        logging.info('build image:%s' % tag)
         try:
             yield self.__image_build(tag, dockerfile_path)
-            self.tag = tag
         except Exception as e:
             logging.error(e, exc_info=True)
             self.set_status(500)
-            self.write({'detail':('image %s%s build fail'
-                        % (image, tag))})
-
-    @engine
-    def _image_push(self):
-        logging.info('image to be pushed : %s%s'
-                     % (self.image, self.tag))
-        try:
-            yield self.__image_push()
-            self.write({'image': self.image, 
-                        'tag': self.tag})
-        except Exception as e:
-            logging.error(e, exc_info=True)
-            self.set_status(500)
-            self.write({'detail':('image %s%s push fail' 
-                                  % (self.image, self.tag))})
+            self.write({'detail':('image %s build fail'
+                        % tag)})
 
     @run_on_executor()
     @run_callback
     def __image_build(self, tag, dockerfile_path):
-        logging.info('build image  : %s%s, dockerfile:%s' 
-                     % (self.registry, tag, dockerfile_path))
-        res = self.image_logic.build(dockerfile_path,
-                                    tag)
+        res = None
+        try:
+            logging.info('building image begin: %s, dockerfile:%s' 
+                         % (tag, dockerfile_path))
+            res = self.image_logic.build(dockerfile_path,
+                                        tag)
+            logging.info('building image end, begin push: %s' 
+                         % tag)
+            res = self.image_logic.push(tag)
+            logging.info('building push end: %s' % tag)
+        except Exception as e:
+            logging.error(e, exc_info=True)
+            self.set_status(500)
+            self.write({'detail':('image %s build or push fail'
+                        % tag)})
         return res
-
-    @run_on_executor()
-    @run_callback
-    def __image_push(self):
-        res = self.image_logic.push(self.registry, 
-                                    self.tag)
-        return res
-
