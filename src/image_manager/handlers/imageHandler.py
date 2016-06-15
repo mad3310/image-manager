@@ -30,7 +30,7 @@ class ImageBuildHandler(RequestHandler):
         if not (owner and app_type and app_name):
             self.set_status(500)
             self.finish({'msg':'invalid para'})
-            Return
+            raise Return(0)
         self.finish({'msg':'building image, please wait....'})
         yield thread_pool.submit(self._image_build,
             owner, app_type, app_name, app_version)
