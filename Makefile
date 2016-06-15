@@ -8,6 +8,8 @@ clean:
 build: clean
 	python setup.py build_py bdist_wheel
 	cp Makefile dist
+	cd scripts/rpm/build && mkdir -p rpms 
+	cp dist/*.whl scripts/rpm/build/opt/letv/image-manager
 
 install: build
 	pip install dist/*.whl -U
