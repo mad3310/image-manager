@@ -10,8 +10,8 @@ import tornado.httpserver
 import tornado.options
 from tornado.options import options
 
-from appdefine import appDefine
-from routes import handlers
+from image_manager.appdefine import appDefine
+from image_manager.routes import handlers
 
 
 class Application(tornado.web.Application):

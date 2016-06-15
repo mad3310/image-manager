@@ -1,5 +1,4 @@
-__author__ = 'xsank'
-
+#coding=utf-8
 
 class Result(object):
 

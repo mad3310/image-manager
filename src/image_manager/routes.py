@@ -1,6 +1,6 @@
 __author__ = 'xsank'
 
-from handlers.imageHandler import *
+from image_manager.handlers.imageHandler import *
 
 handlers = [
     (r"/image/BuildPush", ImageBuildHandler),

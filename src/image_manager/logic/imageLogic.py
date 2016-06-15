@@ -1,7 +1,7 @@
 __author__ = 'xsank'
 
-from utils.dockerOpers import DockerOpers
-from result import Result
+from image_manager.utils.dockerOpers import DockerOpers
+from image_manager.logic.result import Result
 import logging
 
 class ImageLogic(object):
@@ -10,12 +10,12 @@ class ImageLogic(object):
 
     docker_op = DockerOpers.instance()
 
-    def push(self, image):
-        res = self.docker_op.push(image)
+    def push(self, repository, tag=''):
+        res = self.docker_op.push(repository, tag)
         result = Result(not res[1], res[0])
         return str(result)
 
-    def build(self, dockerfile, tag = ''):
-        res = self.docker_op.build(dockerfile, tag)
+    def build(self, path, tag = ''):
+        res = self.docker_op.build(path, tag)
         result = Result(not res[1], res[0])
         return str(result)

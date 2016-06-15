@@ -1,7 +1,6 @@
-__author__ = 'xsank'
+#coding=utf-8
 
-
-from utilOpers import UtilOpers
+from image_manager.utils.utilOpers import UtilOpers
 
 
 class ConfigOpers(UtilOpers):

@@ -2,7 +2,7 @@
 
 import os, shutil
 from tornado.options import options
-from utils import get_file_data, set_file_data
+from image_manager.utils import get_file_data, set_file_data
 
 def dockerfile_get(owner, app_type, 
                    app_name, app_version='0.0.1'):
@@ -21,5 +21,5 @@ def dockerfile_get(owner, app_type,
                               APP_NAME=app_name,
                               APP_VERSION=app_version)
                  )
-    return target_file
+    return target_path
 
