@@ -5,11 +5,15 @@ clean:
 	rm -f `find . -type f -name '*.py[co]' `
 	rm -fr */*.egg-info build dist
 
+rpm: clean
+	source /opt/virtualenvs/wheel/bin/activate && python setup.py build_py bdist_wheel && deactivate
+	mkdir -p scripts/rpm/build/rpms
+	cp dist/*.whl scripts/rpm/build/opt/letv/image-manager
+	cd scripts/rpm && python build_rpm.py
+
 build: clean
 	python setup.py build_py bdist_wheel
 	cp Makefile dist
-	cd scripts/rpm/build && mkdir -p rpms 
-	cp dist/*.whl scripts/rpm/build/opt/letv/image-manager
 
 install: build
 	pip install dist/*.whl -U
