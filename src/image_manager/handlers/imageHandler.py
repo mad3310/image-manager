@@ -1,6 +1,7 @@
 #coding = utf-8
 
 import logging
+import os.path
 from concurrent.futures import ThreadPoolExecutor
 
 from tornado.web import asynchronous, RequestHandler
@@ -9,11 +10,11 @@ from tornado.options import options
 
 from image_manager.logic.imageLogic import ImageLogic
 from image_manager.logic.dockerfileLogic import dockerfile_get 
-
-thread_pool = ThreadPoolExecutor(4)
+from image_manager.logic.app_load import s3Oper
+thread_pool = ThreadPoolExecutor(10)
 
 class ImageBuildHandler(RequestHandler): 
-    registry_addr = "192.168.211.131:5000"
+
     image_logic = ImageLogic()
 
     @asynchronous
@@ -23,30 +24,46 @@ class ImageBuildHandler(RequestHandler):
         curl -d "owner=dianshang&app_type=jdk1.7_resin&app_name=tethys_1.0.0.1" 
         http://10.154.156.129:9999/image/build
         """
+        self.registry_addr = options.registry_addr
         owner = self.get_argument('owner', None)
         app_type = self.get_argument('app_type', None)
         app_name = self.get_argument('app_name', None) 
-        app_version = self.get_argument('app_version', '0.0.1')
-        if not (owner and app_type and app_name):
-            self.set_status(500)
-            self.finish({'msg':'invalid para'})
-            raise Return(0)
-        self.finish({'msg':'building image, please wait....'})
-        yield thread_pool.submit(self._image_build,
-            owner, app_type, app_name, app_version)
+        self.tag = self.get_argument('app_version', '0.0.1')
+        appfile_name = self.get_argument(
+                                'appfile_name', None)
+        self.appfile_s3_bucket = self.get_argument(
+                                'appfile_s3_bucket', None)
+        self.appfile_s3_key    = self.get_argument(
+                                'appfile_s3_key', None)
+        #TODO input para check
 
-    def _image_build(self, owner, app_type, 
-                     app_name, app_version='0.0.1'):
         self.registry = '%s/%s/%s_%s' % (
                               self.registry_addr, 
-                              owner, app_type, 
+                              owner, app_type,
                               app_name)
-        self.tag = app_version
         self.image = '%s:%s'  %(self.registry, self.tag)
-        dockerfile_path = dockerfile_get(owner, app_type, 
-                                   app_name, app_version)
+        self.dockerfile_path = dockerfile_get(self.registry_addr,
+                               owner, app_type, app_name, 
+                               appfile_name, self.tag)
+        self.appfile_fullpath  = os.path.join(self.dockerfile_path,
+                             'files', appfile_name)
+        self.finish({'msg':'building image, please wait....'})
+        yield thread_pool.submit(self._image_build)
+
+    def _image_build(self):
+        dockerfile_path = self.dockerfile_path 
         logging.info('build image:%s' % self.image)
         try:
+            #down load app file
+            s3 = s3Oper(options.s3_host, options.s3_access_key,
+                        options.s3_secret_key)
+            logging.info('download appfile %s begin......' 
+                         % self.appfile_fullpath)
+            s3.file_download(self.appfile_s3_bucket,
+                          self.appfile_s3_key,
+                          self.appfile_fullpath)
+            logging.info('download appfile %s end' 
+                         % self.appfile_fullpath)
             self.__image_build(self.registry, self.tag, 
                                dockerfile_path)
         except Exception as e:

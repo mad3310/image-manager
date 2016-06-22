@@ -7,7 +7,7 @@ clean:
 
 rpm: clean
 	source /opt/virtualenvs/wheel/bin/activate && python setup.py build_py bdist_wheel && deactivate
-	mkdir -p scripts/rpm/build/rpms
+	mkdir -p scripts/rpm/rpms
 	cp dist/*.whl scripts/rpm/build/opt/letv/image-manager
 	cd scripts/rpm && python build_rpm.py
 

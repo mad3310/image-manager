@@ -14,4 +14,5 @@ source ${VENV_NAME}/bin/activate
 pip install docker-py==1.8.1
 pip install tornado==4.3
 pip install futures==3.0.5
+pip install boto==2.40.0
 exit 0
