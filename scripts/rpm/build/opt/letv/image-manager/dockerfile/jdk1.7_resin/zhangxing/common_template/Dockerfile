@@ -1,4 +1,4 @@
-FROM {REPOSITORY_ADDR}/letv_gce/jdk1.7_resin
+FROM {REPOSITORY_ADDR}/letv_gce/jdk1.7_resin:0.0.1
 MAINTAINER zhangxing <zhangxing@letv.com>
 
 USER root
@@ -15,5 +15,4 @@ RUN unzip /letv/deployment/{APP_NAME} -d /letv/deployment/
 
 RUN sed -i 's/example/'{APP_NAME}'/g' /letv/server/resin/conf/resin.xml
 
-#ENTRYPOINT bash /tmp/init_docker/entrypoint_init.sh && source /tmp/init_env.sh && sh /tmp/start_app.sh && /bin/bash
-ENTRYPOINT /bin/bash
+ENTRYPOINT bash /tmp/init_docker/entrypoint_init.sh && source /tmp/init_env.sh && sh /tmp/start_app.sh && /bin/bash
