@@ -20,13 +20,17 @@ class DockerOpers(UtilOpers):
         return options.dockerfile_dir + "/%s" % tp
 
     def build(self, path, tag='', noCache=False):
-        streams = self.client.build(tag=tag, path=path, nocache=noCache)
+        streams = self.client.build(tag = tag, path = path,
+                nocache = noCache, rm = True)
         res = [line for line in streams]
         return res
 
     def push(self, repository, tag = ''):
-        #cmd = 'docker push %s' % image
-        #logging.info('pushing image: %s' % cmd)
-        #res = run_cmd(cmd)
         res = self.client.push(repository, tag)
+        return res
+
+    def remove(self, repository, tag = ''):
+        image = '%s:%s' %(repository, 
+               'latest' if tag == '' else tag)
+        res = self.client.remove_image(image)
         return res

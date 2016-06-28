@@ -80,6 +80,11 @@ class ImageBuildHandler(RequestHandler):
                          % self.image)
             res = self.image_logic.push(registry, tag)
             logging.info('push image end: %s' % self.image)
+            logging.info('delete image %s from local, begin' 
+                         % self.image)
+            self.image_logic.remove(registry, tag)
+            logging.info('delete image %s from local, end' 
+                         % self.image)
         except Exception as e:
             logging.error(e, exc_info=True)
         return res

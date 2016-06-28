@@ -19,3 +19,6 @@ class ImageLogic(object):
         res = self.docker_op.build(path, tag)
         result = Result(not res[1], res[0])
         return str(result)
+
+    def remove(self, repository, tag=''):
+        self.docker_op.remove(repository, tag)
