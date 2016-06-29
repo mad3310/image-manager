@@ -21,3 +21,6 @@ define('s3_access_key', default='EH18VA68TUPMOF4L5MK3',
 define('s3_secret_key', 
         default='Y3KW8LAyVcTNS1cAnPEv847lUmtFXILVg+8gXaIo',
         help='s3 secret key')
+define('zkrootPath', default='/letv/imagemanager', help='zookeeper root path')
+define('zkaddress', default='127.0.0.1', help='zookeeper host')
+define('zkport', default='2181', help='zookeeper port')

@@ -15,4 +15,5 @@ pip install docker-py==1.8.1
 pip install tornado==4.3
 pip install futures==3.0.5
 pip install boto==2.40.0
+pip install kazoo==2.2.1
 exit 0
