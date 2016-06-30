@@ -3,11 +3,17 @@ __author__ = 'xsank'
 from image_manager.utils.dockerOpers import DockerOpers
 from image_manager.logic.result import Result
 import logging
+import json
 from image_manager.utils.zkOpers import zk_handler
 
 class ImageOperRecord(object):
-    REV_WORK, BUILDING, PUSHING, FINISHED = \
-            '0', '1', '2', '3'
+    REV_WORK = dict(code=1, msg='work accept')
+    BUILDING = dict(code=2, msg='image building')
+    PUSHING = dict(code=3, msg='image pushing')
+    REMOVING = dict(code=4, msg='image removing')
+    FINISHED = dict(code=0, msg='work finish')
+
+    ERR_BEGIN = 100 
 
     def __init__(self, repo_name, tag):
         self.node = '%s/%s' %(repo_name, tag)
@@ -22,12 +28,22 @@ class ImageOperRecord(object):
     def set_pushing(self):
         zk_handler.value_set(self.node, self.PUSHING)
 
+    def set_error(self, err_code, msg):
+        zk_handler.value_set(self.node,
+             dict(code=self.ERR_BEGIN+err_code, msg=msg))
+
     def set_finished(self):
         zk_handler.value_set(self.node, self.FINISHED)
 
-    def get_finish(self):
-        val, _ = zk_handler.value_get(self.node)
-        return val == self.FINISHED
+    def get_status(self):
+        val = zk_handler.value_get(self.node)
+        val['is_finish'] = False
+        val['is_err'] = False
+        if val['code'] == self.FINISHED['code']:
+            val['is_finish'] = True
+        if val['code'] > self.ERR_BEGIN:
+            val['is_err'] = True
+        return val
 
 class ImageLogic(object):
 

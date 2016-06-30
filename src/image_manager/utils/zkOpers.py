@@ -1,7 +1,7 @@
 #coding=utf-8
 
 import logging
-
+import json
 from kazoo.client import KazooClient, KazooState
 from kazoo.retry import KazooRetry
 from tornado.options import options
@@ -77,10 +77,11 @@ class ZkOpers(object):
     def value_set(self, node, value):
         path = ('%s/%s') %(self.rootPath, node) 
         self.DEFAULT_RETRY_POLICY(self.zk.set,
-                               path, value)
+                               path, json.dumps(value))
 
     def value_get(self, node):
         path = ('%s/%s') %(self.rootPath, node) 
-        return self.DEFAULT_RETRY_POLICY(self.zk.get, path)
+        ret, _ = self.DEFAULT_RETRY_POLICY(self.zk.get, path)
+        return json.loads(ret)
 
 zk_handler = ZkOpers()
