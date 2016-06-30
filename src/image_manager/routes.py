@@ -4,5 +4,5 @@ from image_manager.handlers.imageHandler import *
 
 handlers = [
     (r"/image/BuildPush", ImageBuildHandler),
-    (r"/image/BuildQuery/(.*)", ImageQueryHandler),
+    (r"/image/BuildQuery", ImageQueryHandler),
 ]

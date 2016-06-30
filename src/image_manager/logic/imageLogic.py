@@ -1,11 +1,11 @@
 __author__ = 'xsank'
 
 from image_manager.utils.dockerOpers import DockerOpers
-from image_manager.logic.result import Results
+from image_manager.logic.result import Result
 import logging
 from image_manager.utils.zkOpers import zk_handler
 
-def ImageOperRecord(object):
+class ImageOperRecord(object):
     REV_WORK, BUILDING, PUSHING, FINISHED = \
             '0', '1', '2', '3'
 
@@ -26,7 +26,7 @@ def ImageOperRecord(object):
         zk_handler.value_set(self.node, self.FINISHED)
 
     def get_finish(self):
-        val = zk_handler.value_get(self.node)
+        val, _ = zk_handler.value_get(self.node)
         return val == self.FINISHED
 
 class ImageLogic(object):

@@ -11,9 +11,11 @@ class ZkOpers(object):
     '''
     classdocs
     '''
-    def __init__(self):a
+    def __init__(self):
         self.rootPath = options.zkrootPath
-        if "" != options.zkaddress and "" != options.zkport:
+        self.zkaddress = options.zkaddress
+        self.zkport = options.zkport
+        if "" != self.zkaddress and "" != self.zkport:
             self.host = '%s:%s' % (self.zkaddress, self.zkport)
             self.DEFAULT_RETRY_POLICY = KazooRetry(
                 max_tries=None,
@@ -50,11 +52,11 @@ class ZkOpers(object):
 
     def listener(self, state):
         if state == KazooState.LOST:
-            logging.info("zk connect lost, 
-                    stop this connection and then start new one!")
+            logging.info("zk connect lost, stop this "
+                         "connection and then start new one!")
         elif state == KazooState.SUSPENDED:
-            logging.info("zk connect suspended,
-                    stop this connection and then start new one!")
+            logging.info("zk connect suspended, stop this "
+                         "connection and then start new one!")
         else:
             pass
 

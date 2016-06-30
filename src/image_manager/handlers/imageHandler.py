@@ -3,17 +3,17 @@
 import logging
 import os.path
 from concurrent.futures import ThreadPoolExecutor
-
+import urllib
 from tornado.web import asynchronous, RequestHandler
 from tornado.gen import coroutine, Return
 from tornado.options import options
-
+from base import BaseHandler
 from image_manager.logic.imageLogic import ImageLogic, ImageOperRecord
 from image_manager.logic.dockerfileLogic import dockerfile_get 
 from image_manager.logic.app_load import s3Oper
 thread_pool = ThreadPoolExecutor(10)
 
-class ImageBuildHandler(RequestHandler): 
+class ImageBuildHandler(BaseHandler): 
 
     image_logic = ImageLogic()
 
@@ -31,8 +31,11 @@ class ImageBuildHandler(RequestHandler):
         self.registry = self.get_argument('repo_name')
         appfile_name = self.get_argument(
                                 'appfile_name', None)
-        self.s3_host = self.get_argument(
-                                'awss3endpoint', options.s3_host)
+        s3_host = self.get_argument('awss3endpoint', options.s3_host)
+        if s3_host.startswith('http'):
+            _, rest = urllib.splittype(s3_host)
+            s3_host, _ = urllib.splithost(rest)
+        self.s3_host = s3_host
         self.s3_access_key = self.get_argument(
                                 'accessKey', options.s3_access_key)
         self.s3_secret_key = self.get_argument(
@@ -51,7 +54,7 @@ class ImageBuildHandler(RequestHandler):
                                appfile_name, self.tag)
         self.appfile_fullpath  = os.path.join(self.dockerfile_path,
                              'files', appfile_name)
-        self.finish({'msg':'building image, please wait....'})
+        self.finish(dict(msg='building image, please wait....'))
         yield thread_pool.submit(self._image_build)
         yield thread_pool.submit(self.image_oper_rec.set_finished)
 
@@ -85,11 +88,11 @@ class ImageBuildHandler(RequestHandler):
             logging.info('building image end, begin push: %s' 
                          % self.image)
             self.image_oper_rec.set_pushing()
-            res = self.image_logic.push(registry, tag)
+            #res = self.image_logic.push(registry, tag)
             logging.info('push image end: %s' % self.image)
             logging.info('delete image %s from local, begin' 
                          % self.image)
-            self.image_logic.remove(registry, tag)
+            #self.image_logic.remove(registry, tag)
             logging.info('delete image %s from local, end' 
                          % self.image)
         except Exception as e:
@@ -97,18 +100,19 @@ class ImageBuildHandler(RequestHandler):
         return res
 
 
-class ImageQueryHandler(RequestHandler):
+class ImageQueryHandler(BaseHandler):
 
     STATUS_UNKOWN = 0
     STATUS_SUCC = 1
     @coroutine
-    def post(self, repo_name, tag):
-        self.registry, self.tag = repo_name, tag
+    def post(self):
+        self.registry = self.get_argument('repo_name')
+        self.tag = self.get_argument('app_version', '0.0.1')
         self.image_oper_rec = ImageOperRecord(self.registry, self.tag)
-        ret = yield thread_pool.submit(self.image_oper_rec.set_finish)
-        msg = 'success' if ret else 'unkown'
-        code = self.STATUS_SUCC if ret else self.STATE_UNKOWN
-        self.write(dict(code=code,
-             message='build %s %s' % (self.image, msg)))
-
+        code = yield thread_pool.submit(self.image_oper_rec.get_finish)
+        msg = 'success' if code else 'unkown'
+        ret = dict(message='build %s:%s %s' % (self.registry, self.tag, msg))
+        if not code:
+            ret['error_code'] = self.STATUS_UNKOWN
+        self.finish(ret)
 
