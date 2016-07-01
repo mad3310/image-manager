@@ -7,13 +7,13 @@ import json
 from image_manager.utils.zkOpers import zk_handler
 
 class ImageOperRecord(object):
-    REV_WORK = dict(code=1, msg='work accept')
-    BUILDING = dict(code=2, msg='image building')
-    PUSHING = dict(code=3, msg='image pushing')
-    REMOVING = dict(code=4, msg='image removing')
-    FINISHED = dict(code=0, msg='work finish')
+    REV_WORK = dict(code='000001', msg='work accept')
+    BUILDING = dict(code='000002', msg='image building')
+    PUSHING = dict(code='000003', msg='image pushing')
+    REMOVING = dict(code='000004', msg='image removing')
+    FINISHED = dict(code='000000', msg='work finish')
 
-    ERR_BEGIN = 100 
+    ERR_BEGIN = 'fffff'
 
     def __init__(self, repo_name, tag):
         self.node = '%s/%s' %(repo_name, tag)
@@ -30,7 +30,8 @@ class ImageOperRecord(object):
 
     def set_error(self, err_code, msg):
         zk_handler.value_set(self.node,
-             dict(code=self.ERR_BEGIN+err_code, msg=msg))
+             dict(code='%s%s' %(self.ERR_BEGIN,err_code),
+                  msg=msg))
 
     def set_finished(self):
         zk_handler.value_set(self.node, self.FINISHED)
@@ -41,7 +42,7 @@ class ImageOperRecord(object):
         val['is_err'] = False
         if val['code'] == self.FINISHED['code']:
             val['is_finish'] = True
-        if val['code'] > self.ERR_BEGIN:
+        if val['code'].startswith(self.ERR_BEGIN):
             val['is_err'] = True
         return val
 

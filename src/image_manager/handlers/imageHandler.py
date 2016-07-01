@@ -14,7 +14,7 @@ from image_manager.logic.app_load import s3Oper
 thread_pool = ThreadPoolExecutor(10)
 
 ERR_PARA_UNVALID, ERR_DOWNLOAD, ERR_DOCKERFILE, \
-   ERR_BUILD, ERR_PUSH, ERR_IMG_RM = 1, 2, 3, 4, 5, 6
+   ERR_BUILD, ERR_PUSH, ERR_IMG_RM = '1', '2', '3', '4', '5', '6'
 
 class ImageBuildHandler(BaseHandler): 
 
@@ -98,13 +98,16 @@ class ImageBuildHandler(BaseHandler):
             yield thread_pool.submit(self.image_oper_rec.set_rev_work)
             self._dockerfile_get()
             self.finish(dict(msg='building image, please wait....'))
-            #yield thread_pool.submit(self._appfile_load)
-            #yield thread_pool.submit(self._image_build)
+            yield thread_pool.submit(self._appfile_load)
+            yield thread_pool.submit(self._image_build)
             #yield thread_pool.submit(self._image_push)
-            yield thread_pool.submit(self._image_remove)
+            #yield thread_pool.submit(self._image_remove)
             yield thread_pool.submit(self.image_oper_rec.set_finished)
         except UserDefineExcept, e:
             yield thread_pool.submit(self.image_oper_rec.set_error, e.code, e.msg)
+        except Exception as e:
+            logging.error(e, exc_info=True)
+            raise
 
 class ImageQueryHandler(BaseHandler):
 
@@ -118,7 +121,8 @@ class ImageQueryHandler(BaseHandler):
         if retval['is_finish']:
             msg = 'success'
         ret = dict(message='build %s:%s %s' % (self.registry, self.tag, msg))
-        if retval['is_err']: 
-            ret['error_code'] = retval['code']
+        ret['code'] = retval['code']
+        if retval['is_err']:
+            ret['error_code'] = retval['code'] 
         self.finish(ret)
 
