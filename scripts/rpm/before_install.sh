@@ -7,7 +7,7 @@ mkdir -p $VIRTUAL_ENV_ROOT
 
 cd $VIRTUAL_ENV_ROOT
 if [ ! -d $VENV_NAME ]; then
-     virtualenv --no-site-packages $VENV_NAME
+     virtualenv --no-site-packages --no-pip --no-setuptools --no-wheel $VENV_NAME
 fi
 
 #source ${VENV_NAME}/bin/activate

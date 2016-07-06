@@ -5,6 +5,8 @@ VENV_NAME=image_manager_py26
 
 source /opt/${VIRTUAL_ENV_ROOT}/${VENV_NAME}/bin/activate
 cd /opt/letv/image-manager/packages
+pip install setuptools-7.0-py2.py3-none-any.whl
+pip install pip-8.1.2-py2.py3-none-any.whl
 pip install ordereddict-1.1.tar.gz
 pip install backports.ssl_match_hostname-3.5.0.1.tar.gz
 pip install argparse-1.4.0-py2.py3-none-any.whl
