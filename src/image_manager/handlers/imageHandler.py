@@ -100,8 +100,8 @@ class ImageBuildHandler(BaseHandler):
             self.finish(dict(msg='building image, please wait....'))
             yield thread_pool.submit(self._appfile_load)
             yield thread_pool.submit(self._image_build)
-            #yield thread_pool.submit(self._image_push)
-            #yield thread_pool.submit(self._image_remove)
+            yield thread_pool.submit(self._image_push)
+            yield thread_pool.submit(self._image_remove)
             yield thread_pool.submit(self.image_oper_rec.set_finished)
         except UserDefineExcept, e:
             yield thread_pool.submit(self.image_oper_rec.set_error, e.code, e.msg)
