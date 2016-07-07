@@ -32,4 +32,9 @@ class BaseHandler(RequestHandler):
 
         self.set_header("Content-Type", "application/json; charset=UTF-8")
         super(BaseHandler, self).finish(chunk)
- 
+
+class HealthCheckHandler(RequestHandler):
+
+    def get(self):
+        self.finish("it works!")
+
