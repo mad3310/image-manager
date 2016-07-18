@@ -1,3 +1,4 @@
+#coding=utf-8
 __author__ = 'xsank'
 
 import os
@@ -13,7 +14,7 @@ define('port', default=9999, type=int, help='app listen port')
 define('base_dir', default=base_dir, help='project base dir')
 define('dockerfile_dir', default=join(base_dir, 'dockerfile'), 
         help='dockerfile dir')
-define('registry_addr', default='192.168.211.131:5000', 
+define('registry_addr', default='10.75.136.132:5000',
         help='registry_addr')
 define('s3_host', default='s3.lecloud.com', help='s3 host')
 define('s3_access_key', default='EH18VA68TUPMOF4L5MK3',
