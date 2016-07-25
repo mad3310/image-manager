@@ -6,13 +6,9 @@ if [ ! -d $virtualenv ]; then
     virtualenv --no-site-packages ${virtualenv}
 fi
 source ${virtualenv}/bin/activate
-LOGFILE=${BASE_DIR}/config/root.log
-log=$(echo "${LOGFILE}" | sed 's/\//\\\//g')
 echo $BASE_DIR
 echo $CODEDIR
 echo $virtualenv
-echo $LOGFILE
-echo $log
 
 sed '1,$s/^args=.*$/args=("\/home\/liujinliu\/log\/root.log", "a", 10000000, 5)/g' logging.conf
 cd $CODEDIR
